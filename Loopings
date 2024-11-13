@@ -1,0 +1,147 @@
+# Aula 13/11/24
+
+# Looping
+
+## While
+usado quando você precisa repetir um bloco de código enquanto uma condição for verdadeira
+
+while (condicao) {
+  # Código a ser repetido enquanto a condição for verdadeira
+}
+
+Imprima na tela i, enquanto i for menor do que 6
+
+i <- 1 # sempre definimos o critério de parada fora do loop
+
+while (i < 6) {
+  print(i)
+  i <- i + 1 # Sempre alteramos o critério 
+  # de parada, senão caímos em um loop infinito
+}
+
+## Break
+Mesmo quando uma condição é verdadeira, podemos ter interesse em parar uma repetição, mesmo que a condição seja TRUE. Útil quando não queremos cair em um loop infinito.
+
+Para loop quando i==4
+
+i <- 1
+while (i < 6) {
+  print(i)
+  i <- i + 1
+  if (i == 4) {
+    break
+  }
+}
+
+## Next
+pular uma iteração sem encerrar o loop
+
+i <- 0
+while (i < 6) {
+  i <- i + 1
+  if (i == 3) {
+    next
+  }
+  print(i)
+}
+
+### Exercicio
+Suponha o lançamento de um dado não viesado, com seis faces. Quantas vezes devo lançar o dado para obter a face 5?
+  
+  set.seed(1234)
+
+dado <- seq(1:6)
+n_lancamento = 0
+sorteio = 0
+
+while (sorteio != 5) {
+  sorteio =  sample(dado, 1)
+  n_lancamento = n_lancamento + 1
+  
+  cat(paste0("\n\nLançamento: ", n_lancamento, "\nValor Sorteado: ", sorteio))
+}
+
+n_lancamento
+
+n_lancamento = 0
+while (sorteio != 7) {
+  sorteio =  sample(dado, 1)
+  n_lancamento = n_lancamento + 1
+  
+  cat(paste0("\n\nLançamento: ", n_lancamento, "\nValor Sorteado: ", sorteio))
+  
+  if(n_lancamento == 100){
+    break
+  }
+}
+
+n_lancamento
+
+Note que em ambos exemplos os valores estão sendo apenas calculados e não estamos guardando em nenhuma variável. Para resolver esse problema podemos simplesmnet guardar o valor sorteado em um vetor.
+
+valor_sorteado = numeric()
+n_lancamento = 0
+while (sorteio != 7) {
+  n_lancamento = n_lancamento + 1
+  valor_sorteado[n_lancamento] =  sample(dado, 1)
+  
+  
+  cat(paste0("\n\nLançamento: ", n_lancamento, "\nValor Sorteado: ", sorteio))
+  
+  if(n_lancamento == 100){
+    break
+  }
+}
+
+valor_sorteado
+
+## For
+usado para iterar sobre uma sequência de valores, como um vetor ou uma lista
+
+for (variavel in sequencia) {
+  # Código a ser executado para cada valor da sequência
+}
+
+Suponha que queremos calcular o quadrado dos valores de 1:10.
+
+for(i in 1:10) {
+  x1 <- i^2
+  print(x1)
+}
+
+Além disso, podemos ter for aninhados.
+
+Suponha agora um experimento que consiste no lançamento de dois dados não viesados de seis faces, e definimos uma variável aleatória como o quadrado da soma das faces superiores dos dois dados. Queremos guardar o valor dos dois dados, a soma das faces superiores e o quadrado da soma
+
+require(dplyr)
+require(magrittr)
+
+dado = c(1:6)
+soma_dois_dados = function(dado1, dado2){
+  soma = dado1 + dado2
+  
+}
+quadrado_soma = function(soma){
+  soma2 = soma^2
+  return(soma2)
+}
+
+resultado = list()
+k = 0 
+for(i in dado){
+  for(j in dado){
+    k = k + 1
+    soma = soma_dois_dados(dado[i], dado[j])
+    somaqd = quadrado_soma(soma)
+    
+    resultado[[k]] = data.frame(dado1 = dado[i], 
+                                dado2 = dado[j], 
+                                soma = soma, 
+                                soma2 = somaqd)
+  }
+}
+
+resultado
+
+resultado %<>% bind_rows()
+resultado
