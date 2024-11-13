@@ -1,0 +1,60 @@
+# Aula do dia 30/10/24
+
+# Organização de dados
+Cada variável é uma coluna; cada coluna é uma variável. Cada observação é uma linha; cada linha é uma observação. Cada valor é uma célula; cada célula é um único valor.Assim cria um conjunto de dados Tidy
+
+## Pivotagem
+Transforma um conjunto de dados de colunas em linhas, e linhas em colunas
+
+### Formato Wide (Largo)
+Informações distribuidas em muitas colunas,cada variável é representada por uma coluna separada e cada observação (ou instância) ocupa uma única linha
+
+### Formato Long (Longo)
+as variáveis estão empilhadas em uma única coluna, enquanto uma coluna adicional é usada para indicar o nome da variável. Cada observação é representada por uma linha separada.
+
+## Pivotando dados em R
+
+require(tidyverse)
+
+require(magrittr)
+
+table1
+
+### Pivot Wider
+é usada para transformar um conjunto de dados de um formato longo para um formato largo
+pivot_wider()
+
+table1 %>% 
+  select(country, year, cases) %>% 
+  pivot_wider(names_from = year, values_from = cases)
+
+### Pivot Longer
+
+table1 %>% 
+  pivot_longer(cols = -c(country, year), 
+               names_to = "variavel", 
+               values_to = "tamanho")
+
+### Separando Observação
+
+separated = table3 %>% 
+  separate(rate, into = c("cases", "population"))
+
+separated %>% 
+  unite(rate, cases, population, sep = "/")
+
+#### Exemplo
+TB <- fread("../data/TB.csv.gz")
+View(TB)
+
+TB1 <- TB %>% 
+  pivot_longer(
+    cols = -c(1:4), 
+    names_to = "chave", 
+    values_to = "casos", 
+    values_drop_na = TRUE
+  )
+TB1
+
+TB1 %>% 
+  count(chave)
