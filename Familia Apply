@@ -1,0 +1,46 @@
+# Aula 13/11/24
+
+# Familia Apply
+são usadas para aplicar uma função a elementos de uma lista, vetor, matriz ou array. 
+
+## Apply
+Aplica uma função qualquer a uma matriz, array ou data.frame ao longo de margens específicas (linhas 1 ou colunas 2). O output de um apply() é um vetor
+
+matriz1 <- matrix(1:6, nrow = 2)
+soma_linhas <- apply(matriz1, 1, sum)
+soma_colunas <- apply(matriz1, 2, sum)
+
+## Lapply
+Aplica uma função a cada elemento de uma lista e retorna uma lista com os resultados.
+
+minha_lista <- list(a = c(1, 2, 3), b = c(4, 5, 6))
+resultados <- lapply(minha_lista, mean)
+resultados
+
+## Sapply
+A função sapply() é semelhante ao lapply(), mas tenta simplificar o resultado em um vetor ou matriz sempre que possível. Se todos os resultados forem do mesmo comprimento, será retornado um vetor. Caso contrário, será retornada uma matriz.
+
+minha_lista <- list(a = c(1, 2, 3), b = c(4, 5, 6), c=c(7,6,8))
+resultados <- sapply(minha_lista, mean)
+resultados
+
+## Mapply
+Aplica uma função a vários argumentos. Ele oferece uma maneira eficiente de realizar essas operações de forma flexível e controlada
+
+resultado <- mapply(soma_dois_dados, 
+                    dado, 
+                    dado)
+
+print(resultado)
+
+## Expand.grid
+E se eu quisesse somar todas as combinações como no for aninhado? Para isso podemos expandir o grid de busca, utilizando o expand.grid.
+
+dois_dados = expand.grid(dado, dado)
+dois_dados
+
+resultado <- mapply(soma_dois_dados, 
+                    dois_dados$Var1, 
+                    dois_dados$Var2)
+
+print(resultado)
